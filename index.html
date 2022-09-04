@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Testimonial App</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style type="text/css">
+		
+		body{
+			display: flex;
+			flex-direction: column;
+			height: 100vh;
+			justify-content: center;
+			font-family: sans-serif;
+			box-sizing: border-box;
+			margin: 0;
+			background-color: lemonchiffon;
+		}
+		 .wrap{
+		 	max-width: 500px;
+		 	width: 100%;
+		 	margin: 0 auto;
+		 	border: 1px solid yellowgreen;
+		 	box-shadow: 5px 6px 6px darkgrey;
+		 	padding: 25px;
+		 	text-align: center;
+		 	background-color: #00bcd4;
+		 	color: white;
+		 	box-sizing: border-box;
+		 }
+         .wrap img{
+         	border-radius: 50%;
+         	max-width: 200px;
+         	width: 100%;
+         }
+         p{
+         	font-size: 16px;
+         	line-height: 20px;
+         }
+         .name p{
+         	font-size: 30px;
+         	line-height: 22px;
+         	color: blanchedalmond;
+         	font-weight: bold;
+         }
+         #job{
+         	font-size: 20px;
+         	line-height: 28px;
+         	color: maroon;
+         	font-style: italic;
+         	font-weight: bold;
+         }
+		 button{
+			background-color: transparent;
+    border: 2px solid #fff;
+    padding: 10px 25px;
+    margin-top: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    max-width: 200px;
+    width: 100%;
+		}
+		.slideBtn{
+			position: relative;
+		}
+        .fa{
+        	color: maroon;
+    font-size: 40px;
+    margin: 15px;
+    cursor: pointer;
+    position: absolute;
+    background-color: ghostwhite;
+    line-height: 140%;
+    padding: 6px;
+    box-shadow: 1px -3px 9px #00bcd4;
+        }
+        .fa.fa-chevron-right{
+
+        	bottom: 105px;
+    right: -45px;
+        }
+        .fa.fa-chevron-left{
+
+        	bottom: 105px;
+    left: -45px;
+        }
+	</style>
+</head>
+<body>
+
+	    <h1 style="color: maroon;text-align: center;">Our Reviews</h1>
+     <div class="wrap">
+     	<div class="image">
+     		<img id="speakerImg" src="https://dummyimage.com/100x100/de009b/fff.png&text=Speaker-1">
+     	</div>
+     	<div class="name">
+     		<p id="name">Sonu</p>
+     	</div>
+     	<div class="content">
+     		<p id="job">FrontEnd Developer</p>
+     		<p id="msg">Lorem Ispsum</p>
+     	</div>
+     	<div class="slideBtn">
+     		<span class="fa fa-chevron-left" id="prev-btn"></span><span class="fa fa-chevron-right" id="next-btn"></span>
+     	</div>
+
+     	<div class="slideBtn">
+     		<button id="randomBtn">Random Reviews</button>
+     	</div>
+
+     	<div class="slideBtn">
+     		<button id="autoBtn">Auto Reviews</button>
+     	</div>
+
+
+     </div>
+
+     <div id="demo"></div>
+
+     <script type="text/javascript">
+     	
+     	// const reviews = [{
+     	// 	        id : 1,
+     	//      		name : "Abhi",
+     	//      		job: "Software Engineer",
+     	//      		img : "https://dummyimage.com/100x100/de009b/fff.png&text=Speaker-1",
+
+     	//      	},
+     	//      	{
+     	// 	        id : 2,
+     	//      		name : "Sonu",
+     	//      		job: "FrontEnd Developer",
+     	//      		img : "https://dummyimage.com/100x100/bdde00/fff.png&text=Speaker-2",
+
+     	//      	},
+     	//      	{
+     	// 	        id : 3,
+     	//      		name : "Akshay",
+     	//      		job: "Maketing Executive",
+     	//      		img : "https://dummyimage.com/100x100/f71313/fff.png&text=Speaker-3",
+
+     	//      	},
+     	//      	{
+     	// 	        id : 4,
+     	//      		name : "Pankaj",
+     	//      		job: "Team Leader",
+     	//      		img : "https://dummyimage.com/100x100/139ef5/fff.png&text=Speaker-4",
+
+     	//      	},];
+
+
+
+     	
+          
+
+              let fetchRes = fetch(
+"https://testimonialapi.toolcarton.com/api");
+       
+        fetchRes.then(res =>
+            res.json()).then(d => {
+                console.log(d)
+
+
+              let currentItem = 0;
+
+             let dlen = d.length-1;
+     	     let name = document.getElementById('name');	
+     	     let job = document.getElementById('job');	
+     	     let speakerImg = document.getElementById('speakerImg');
+     	     let message = document.getElementById('msg');	
+     	     
+     	     const prevBtn = document.getElementById('prev-btn');	
+     	     const nextBtn = document.getElementById('next-btn');
+     	     const randomBtn = document.getElementById('randomBtn');
+     	     const autoBtn = document.getElementById('autoBtn');
+
+     	     window.onload = show();
+     	     
+            function show() {
+            	
+     	     	const item = d[currentItem];
+     	     	name.textContent = item.name;
+     	     	job.textContent = item.designation;
+     	     	message.textContent = item.message;
+     	     	speakerImg.src = item.avatar;
+     	     	
+     	     
+            }
+            
+
+             
+           
+            prevBtn.addEventListener('click', function() {
+
+            	currentItem--
+            	if (currentItem < 0) {
+
+            		currentItem = dlen;
+            	}
+
+            	show();
+            })
+
+            randomBtn.addEventListener('click', function() {
+
+            	currentItem = Math.floor(Math.random()*dlen);
+            	
+            	 
+            	show();
+            })
+           
+           // let myFun = function showSlides() {
+           // 	 currentItem++
+           //  	if (currentItem >  dlen) {
+
+           //  		currentItem = 0;
+           //  	}
+
+           //  	setTimeout(showSlides, 4000)
+
+           //  	show();
+
+            	
+           // }
+           
+
+           // autoBtn.addEventListener('click', myFun)
+
+           nextBtn.addEventListener('click', show2)
+           
+           autoBtn.addEventListener('click', function() {
+              
+              show2(setInterval(show2, 2000));
+            	
+            })
+
+          function show2() {
+
+            	currentItem++
+            	if (currentItem >  dlen) {
+
+            		currentItem = 0;
+            	}
+                
+            	show();
+            }
+
+            
+
+            
+                    
+           
+          
+
+           
+        
+
+     	     	
+     	   
+           
+            
+     	    })   
+
+         
+     	     	
+
+
+
+
+
+     </script>
+</body>
+</html>
